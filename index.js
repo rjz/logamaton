@@ -1,5 +1,4 @@
-var fs = require('fs'),
-    split = require('split'),
+var split = require('split'),
     through = require('through');
 
 var filters = require('./src/filters'),
@@ -31,7 +30,7 @@ function safeJson (data) {
   }
 }
 
-var exports = module.exports = function flogger (opts) {
+var exports = module.exports = function logamaton (opts) {
 
   var filters = opts.filters || [],
       reports = opts.reports || [];
@@ -78,5 +77,4 @@ var exports = module.exports = function flogger (opts) {
 exports.filters = filters;
 
 exports.instrument = instrument;
-
 

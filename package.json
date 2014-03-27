@@ -1,12 +1,18 @@
 {
-  "name": "flog",
-  "version": "0.0.0",
-  "description": "",
+  "name": "logamaton",
+  "version": "0.0.1",
+  "description": "JSON logfile automation",
+  "keywords": [
+    "json", "logfile", "logs", "query", "processing", "filtering"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "jshint ."
   },
   "author": "RJ Zaworski <rj@rjzaworski.com> (http://rjzaworski.com)",
+  "repository": "https://github.com/rjz/logamaton",
+  "bugs": "https://github.com/rjz/logamaton/issues",
+  "contributors": [],
   "license": "MIT",
   "dependencies": {
     "split": "~0.3",
@@ -16,3 +22,4 @@
     "jshint": "~2.4.4"
   }
 }
+

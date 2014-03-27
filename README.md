@@ -1,50 +1,56 @@
-# Flog
+# Logamaton
 
 Logfile automation for JSON logs.
 
-    var entries = flog({
+    var logamaton = require('logamaton');
+
+    var entries = logamaton({
       readStream: fs.createReadStream('./logs.json'),
     });
 
     entries
-      .filter(flog.filters.all())
-      .filter(flog.filters.after({
+      .filter(logamaton.filters.all())
+      .filter(logamaton.filters.after({
         start: new Date('2014-01-01')
       }))
-      .filter(flog.filters.has('err'))
+      .filter(logamaton.filters.has('err'))
       .report(function (results) {
         console.log(results);
       });
+
+## Installation
+
+    $ npm install logamaton
 
 ### Filters
 
 Determine whether a given entry from a log is interesting or not. All filters
 are instrumented to capture a count of all log entries they receive and a copy
-of all entries they match. They may be defined either as arguments to `flog`:
+of all entries they match. They may be defined either as arguments to `logamaton`:
 
     var filters = [
-      flog.filters.all(),
-      flog.filters.after({ start: new Date('2014-03-18T02:14:39.151Z') }),
-      flog.filters.has('err'),
-      flog.filters.where({ level: 40 })
+      logamaton.filters.all(),
+      logamaton.filters.after({ start: new Date('2014-03-18T02:14:39.151Z') }),
+      logamaton.filters.has('err'),
+      logamaton.filters.where({ level: 40 })
     ];
 
-    flog({
+    logamaton({
       readStream: process.stdin,
       filters: filters
     });
 
 Or by chaining with `filter`:
 
-    flog({ readStream: process.stdin });
-      .filter(flog.filters.all())
-      .filter(flog.filters.after({ start: new Date('2014-03-18T02:14:39.151Z') }));
+    logamaton({ readStream: process.stdin });
+      .filter(logamaton.filters.all())
+      .filter(logamaton.filters.after({ start: new Date('2014-03-18T02:14:39.151Z') }));
 
 #### Custom Filters
 
-Custom filters may be built using `flog.instrument(name, iter)`:
+Custom filters may be built using `logamaton.instrument(name, iter)`:
 
-    var fzbz = flog.instrument('fzbz', function (data, callback) {
+    var fzbz = logamaton.instrument('fzbz', function (data, callback) {
       data.fizz = 'buzz';
       callback(null, data);
     });
@@ -52,13 +58,13 @@ Custom filters may be built using `flog.instrument(name, iter)`:
 ### Reporters
 
 Reporters inspect filter metrics to summarize the contents of the log. They may
-be defined either as arguments to `flog`:
+be defined either as arguments to `logamaton`:
 
     function aReporter (results) {
       console.log(results.total);
     }
 
-    flog({
+    logamaton({
       readStream: process.stdin,
       filters: filters,
       reports: [aReporter]
@@ -66,7 +72,7 @@ be defined either as arguments to `flog`:
 
 Or by chaining with `report`:
 
-    flog({ readStream: process.stdin })
+    logamaton({ readStream: process.stdin })
       .report(function (results) {
         console.log(results.total);
       })
@@ -74,11 +80,11 @@ Or by chaining with `report`:
 Reports for an individual function may also be recovered from a specific filter
 by calling `results()` on the filter.
 
-    var after = flog.filters.after({
+    var after = logamaton.filters.after({
       start: new Date('2014-03-18T02:14:39.151Z')
     });
 
-    flog({ readStream: process.stdin })
+    logamaton({ readStream: process.stdin })
       .filter(after)
       .report(function () {
         console.log(after.results().matches);
@@ -98,4 +104,5 @@ Have something to add? Contributions are enormously welcome!
 
 ## License
 
-Flog is released under the terms of the JSON license
+Logamaton is released under the terms of the JSON license
+
